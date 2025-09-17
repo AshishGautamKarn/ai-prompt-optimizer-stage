@@ -1,0 +1,40 @@
+{
+  "name": "ai-prompt-optimizer",
+  "version": "1.0.0",
+  "description": "A comprehensive tool to generate optimized prompts for various AI platforms",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve .",
+    "dev": "npx live-server .",
+    "external": "node server.js",
+    "external-python": "python3 server.py",
+    "external-auto": "./start-server.sh",
+    "build": "echo 'No build process needed - static files only'",
+    "test": "echo 'No tests specified'"
+  },
+  "keywords": [
+    "ai",
+    "prompt",
+    "optimization",
+    "chatgpt",
+    "claude",
+    "gemini",
+    "copilot",
+    "servicenow",
+    "developer-tools"
+  ],
+  "author": "AI Prompt Optimizer Team",
+  "license": "MIT",
+  "devDependencies": {
+    "live-server": "^1.2.2",
+    "serve": "^14.2.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/ai-prompt-optimizer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/ai-prompt-optimizer/issues"
+  },
+  "homepage": "https://github.com/your-username/ai-prompt-optimizer#readme"
+}

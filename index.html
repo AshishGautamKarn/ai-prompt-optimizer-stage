@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Prompt Optimizer</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1><i class="fas fa-robot"></i> AI Prompt Optimizer</h1>
+            <p>Generate the perfect prompt for your chosen AI platform</p>
+        </header>
+
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <span class="progress-text" id="progressText">Step 1 of 5</span>
+        </div>
+
+        <div class="question-container" id="questionContainer">
+            <!-- Questions will be dynamically loaded here -->
+        </div>
+
+        <div class="navigation">
+            <button id="prevBtn" class="btn btn-secondary" style="display: none;">
+                <i class="fas fa-arrow-left"></i> Previous
+            </button>
+            <button id="nextBtn" class="btn btn-primary">
+                Next <i class="fas fa-arrow-right"></i>
+            </button>
+            <button id="generateBtn" class="btn btn-success" style="display: none;">
+                <i class="fas fa-magic"></i> Generate Prompt
+            </button>
+        </div>
+
+        <div class="result-container" id="resultContainer" style="display: none;">
+            <h2><i class="fas fa-sparkles"></i> Your Optimized Prompt</h2>
+            <div class="prompt-output">
+                <textarea id="generatedPrompt" readonly></textarea>
+                <button id="copyBtn" class="btn btn-outline">
+                    <i class="fas fa-copy"></i> Copy to Clipboard
+                </button>
+            </div>
+            <div class="ai-tips" id="aiTips">
+                <!-- AI-specific tips will be shown here -->
+            </div>
+            <div class="result-actions">
+                <button id="newPromptBtn" class="btn btn-primary" type="button">
+                    <i class="fas fa-plus"></i> Start New Prompt
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>Created and Managed by: <strong>Ashish Gautam</strong></p>
+            <p>LinkedIn: <a href="https://www.linkedin.com/in/ashishgautamkarn/" target="_blank" rel="noopener noreferrer">@ashishgautamkarn</a></p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

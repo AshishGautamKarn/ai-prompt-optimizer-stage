@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Prompt Optimizer - Simple Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .test-result {
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+        .test-pass {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .test-fail {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .test-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .test-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        .test-button:hover {
+            background: #0056b3;
+        }
+        .test-log {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 14px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .instructions {
+            background: #e7f3ff;
+            border: 1px solid #b3d9ff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 AI Prompt Optimizer - Simple Test</h1>
+        
+        <div class="instructions">
+            <h3>📋 How to Test</h3>
+            <ol>
+                <li><strong>Open the main application:</strong> <a href="index.html" target="_blank">Click here to open AI Prompt Optimizer</a></li>
+                <li><strong>Test the complete flow:</strong>
+                    <ul>
+                        <li>Go through steps 1-4 (AI Platform, Task Type, Complexity, Output Format)</li>
+                        <li>At step 5 (Context Details), select some context options</li>
+                        <li><strong>CRITICAL:</strong> Verify "Next" button is visible (not "Generate")</li>
+                        <li>Click "Next" and verify dynamic context questions appear</li>
+                        <li>Answer the dynamic questions</li>
+                        <li>Verify extra preferences question appears</li>
+                        <li>Click "Generate Prompt" and verify it works</li>
+                    </ul>
+                </li>
+                <li><strong>Report results:</strong> Use the form below to report what you found</li>
+            </ol>
+        </div>
+
+        <div class="test-container">
+            <h2>📊 Test Results Form</h2>
+            <form id="testForm">
+                <div style="margin: 15px 0;">
+                    <label><strong>Step 1-4 Navigation:</strong></label><br>
+                    <input type="radio" name="steps1to4" value="pass" id="steps1to4_pass">
+                    <label for="steps1to4_pass">✅ Works correctly</label><br>
+                    <input type="radio" name="steps1to4" value="fail" id="steps1to4_fail">
+                    <label for="steps1to4_fail">❌ Has issues</label>
+                </div>
+
+                <div style="margin: 15px 0;">
+                    <label><strong>Step 5 - Context Details:</strong></label><br>
+                    <input type="radio" name="step5" value="pass" id="step5_pass">
+                    <label for="step5_pass">✅ Shows "Next" button and context options</label><br>
+                    <input type="radio" name="step5" value="fail" id="step5_fail">
+                    <label for="step5_fail">❌ Shows "Generate" button or missing options</label>
+                </div>
+
+                <div style="margin: 15px 0;">
+                    <label><strong>Dynamic Context Questions:</strong></label><br>
+                    <input type="radio" name="dynamic" value="pass" id="dynamic_pass">
+                    <label for="dynamic_pass">✅ Appear after clicking "Next" from Step 5</label><br>
+                    <input type="radio" name="dynamic" value="fail" id="dynamic_fail">
+                    <label for="dynamic_fail">❌ Do not appear or skip to generate</label>
+                </div>
+
+                <div style="margin: 15px 0;">
+                    <label><strong>Extra Preferences Question:</strong></label><br>
+                    <input type="radio" name="extra" value="pass" id="extra_pass">
+                    <label for="extra_pass">✅ Appears after dynamic questions</label><br>
+                    <input type="radio" name="extra" value="fail" id="extra_fail">
+                    <label for="extra_fail">❌ Does not appear</label>
+                </div>
+
+                <div style="margin: 15px 0;">
+                    <label><strong>Generate Prompt:</strong></label><br>
+                    <input type="radio" name="generate" value="pass" id="generate_pass">
+                    <label for="generate_pass">✅ Works and shows generated prompt</label><br>
+                    <input type="radio" name="generate" value="fail" id="generate_fail">
+                    <label for="generate_fail">❌ Does not work or shows errors</label>
+                </div>
+
+                <div style="margin: 15px 0;">
+                    <label><strong>Back Navigation:</strong></label><br>
+                    <input type="radio" name="back" value="pass" id="back_pass">
+                    <label for="back_pass">✅ Works correctly</label><br>
+                    <input type="radio" name="back" value="fail" id="back_fail">
+                    <label for="back_fail">❌ Has issues</label>
+                </div>
+
+                <div style="margin: 15px 0;">
+                    <label><strong>Start New Prompt:</strong></label><br>
+                    <input type="radio" name="new" value="pass" id="new_pass">
+                    <label for="new_pass">✅ Resets application correctly</label><br>
+                    <input type="radio" name="new" value="fail" id="new_fail">
+                    <label for="new_fail">❌ Does not reset properly</label>
+                </div>
+
+                <div style="margin: 15px 0;">
+                    <label><strong>Console Errors:</strong></label><br>
+                    <input type="radio" name="console" value="none" id="console_none">
+                    <label for="console_none">✅ No errors in console</label><br>
+                    <input type="radio" name="console" value="some" id="console_some">
+                    <label for="console_some">⚠️ Some warnings but works</label><br>
+                    <input type="radio" name="console" value="errors" id="console_errors">
+                    <label for="console_errors">❌ Has errors that break functionality</label>
+                </div>
+
+                <div style="margin: 15px 0;">
+                    <label><strong>Overall Status:</strong></label><br>
+                    <input type="radio" name="overall" value="excellent" id="overall_excellent">
+                    <label for="overall_excellent">🎉 Excellent - Everything works perfectly</label><br>
+                    <input type="radio" name="overall" value="good" id="overall_good">
+                    <label for="overall_good">✅ Good - Minor issues but mostly works</label><br>
+                    <input type="radio" name="overall" value="needs_work" id="overall_needs_work">
+                    <label for="overall_needs_work">⚠️ Needs Work - Several issues</label><br>
+                    <input type="radio" name="overall" value="broken" id="overall_broken">
+                    <label for="overall_broken">❌ Broken - Major issues</label>
+                </div>
+
+                <div style="margin: 15px 0;">
+                    <label><strong>Additional Notes:</strong></label><br>
+                    <textarea name="notes" rows="4" cols="50" placeholder="Describe any specific issues or observations..."></textarea>
+                </div>
+
+                <button type="button" class="test-button" onclick="submitTest()">📊 Submit Test Results</button>
+                <button type="button" class="test-button" onclick="clearForm()">🗑️ Clear Form</button>
+            </form>
+        </div>
+
+        <div id="testResults" style="display: none;">
+            <h2>📈 Test Summary</h2>
+            <div id="summaryContent"></div>
+        </div>
+    </div>
+
+    <script>
+        function submitTest() {
+            const form = document.getElementById('testForm');
+            const formData = new FormData(form);
+            const results = {};
+            
+            // Collect all form data
+            for (let [key, value] of formData.entries()) {
+                results[key] = value;
+            }
+            
+            // Calculate results
+            const testItems = ['steps1to4', 'step5', 'dynamic', 'extra', 'generate', 'back', 'new', 'console'];
+            const passed = testItems.filter(item => results[item] === 'pass').length;
+            const total = testItems.length;
+            const percentage = (passed / total) * 100;
+            
+            // Determine status
+            let status = '';
+            let statusColor = '';
+            if (percentage >= 90) {
+                status = '🎉 EXCELLENT';
+                statusColor = '#28a745';
+            } else if (percentage >= 70) {
+                status = '✅ GOOD';
+                statusColor = '#28a745';
+            } else if (percentage >= 50) {
+                status = '⚠️ NEEDS WORK';
+                statusColor = '#ffc107';
+            } else {
+                status = '❌ BROKEN';
+                statusColor = '#dc3545';
+            }
+            
+            // Show results
+            const resultsDiv = document.getElementById('testResults');
+            const summaryDiv = document.getElementById('summaryContent');
+            
+            summaryDiv.innerHTML = `
+                <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                    <div>
+                        <h4>Test Results</h4>
+                        <p><strong>Tests Passed:</strong> ${passed}/${total}</p>
+                        <p><strong>Success Rate:</strong> ${percentage.toFixed(1)}%</p>
+                        <p><strong>Overall Status:</strong> ${results.overall}</p>
+                    </div>
+                    <div>
+                        <h4>Status</h4>
+                        <p style="color: ${statusColor}; font-weight: bold; font-size: 18px;">
+                            ${status}
+                        </p>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4>Detailed Results</h4>
+                    <ul>
+                        <li><strong>Steps 1-4:</strong> ${results.steps1to4 === 'pass' ? '✅ Pass' : '❌ Fail'}</li>
+                        <li><strong>Step 5 Context:</strong> ${results.step5 === 'pass' ? '✅ Pass' : '❌ Fail'}</li>
+                        <li><strong>Dynamic Questions:</strong> ${results.dynamic === 'pass' ? '✅ Pass' : '❌ Fail'}</li>
+                        <li><strong>Extra Preferences:</strong> ${results.extra === 'pass' ? '✅ Pass' : '❌ Fail'}</li>
+                        <li><strong>Generate Prompt:</strong> ${results.generate === 'pass' ? '✅ Pass' : '❌ Fail'}</li>
+                        <li><strong>Back Navigation:</strong> ${results.back === 'pass' ? '✅ Pass' : '❌ Fail'}</li>
+                        <li><strong>Start New Prompt:</strong> ${results.new === 'pass' ? '✅ Pass' : '❌ Fail'}</li>
+                        <li><strong>Console Errors:</strong> ${results.console}</li>
+                    </ul>
+                </div>
+                
+                ${results.notes ? `
+                <div>
+                    <h4>Notes</h4>
+                    <p>${results.notes}</p>
+                </div>
+                ` : ''}
+                
+                <div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+                    <h4>Next Steps</h4>
+                    ${percentage >= 80 ? 
+                        '<p style="color: #28a745;">🎉 Great! The application is working well. You can use it with confidence.</p>' :
+                        '<p style="color: #dc3545;">⚠️ There are some issues that need to be addressed. Please report the specific problems you encountered.</p>'
+                    }
+                </div>
+            `;
+            
+            resultsDiv.style.display = 'block';
+            resultsDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function clearForm() {
+            document.getElementById('testForm').reset();
+            document.getElementById('testResults').style.display = 'none';
+        }
+    </script>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>Created and Managed by: <strong>Ashish Gautam</strong></p>
+            <p>LinkedIn: <a href="https://www.linkedin.com/in/ashishgautamkarn/" target="_blank" rel="noopener noreferrer">@ashishgautamkarn</a></p>
+        </div>
+    </footer>
+</body>
+</html>

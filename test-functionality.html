@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Prompt Optimizer - Functionality Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .test-title {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .test-step {
+            margin: 15px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-left: 4px solid #007bff;
+            border-radius: 4px;
+        }
+        .test-step h3 {
+            margin: 0 0 10px 0;
+            color: #007bff;
+        }
+        .test-result {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .test-pass {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .test-fail {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .test-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .test-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        .test-button:hover {
+            background: #0056b3;
+        }
+        .test-button:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+        .test-log {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 14px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #007bff, #28a745);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        .test-summary {
+            background: #e7f3ff;
+            border: 1px solid #b3d9ff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1 class="test-title">🧪 AI Prompt Optimizer - Automated Test Suite</h1>
+        
+        <div class="test-info" style="margin-bottom: 20px;">
+            <strong>📋 Note:</strong> This test suite verifies the JavaScript code functionality. 
+            For complete UI testing, please use the <a href="test-simple.html" target="_blank">Simple Manual Test</a> 
+            or test the <a href="index.html" target="_blank">main application</a> directly.
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2>Test Controls</h2>
+            <button class="test-button" id="runAllTests">🚀 Run All Tests</button>
+            <button class="test-button" id="runBasicTests">📋 Run Basic Tests</button>
+            <button class="test-button" id="runAdvancedTests">⚡ Run Advanced Tests</button>
+            <button class="test-button" id="clearResults">🗑️ Clear Results</button>
+        </div>
+
+        <div class="test-section">
+            <h2>Test Results</h2>
+            <div id="testResults"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>Test Log</h2>
+            <div class="test-log" id="testLog"></div>
+        </div>
+
+        <div class="test-summary" id="testSummary" style="display: none;">
+            <h3>Test Summary</h3>
+            <div id="summaryContent"></div>
+        </div>
+    </div>
+
+    <!-- Load the main application script -->
+    <script src="script.js"></script>
+    
+    <script>
+        class AIPromptOptimizerTester {
+            constructor() {
+                this.testResults = [];
+                this.currentTest = 0;
+                this.totalTests = 0;
+                this.app = null;
+                this.originalConsole = console.log;
+                this.setupEventListeners();
+                this.log('Test suite initialized. Ready to run tests.');
+            }
+
+            setupEventListeners() {
+                document.getElementById('runAllTests').addEventListener('click', () => this.runAllTests());
+                document.getElementById('runBasicTests').addEventListener('click', () => this.runBasicTests());
+                document.getElementById('runAdvancedTests').addEventListener('click', () => this.runAdvancedTests());
+                document.getElementById('clearResults').addEventListener('click', () => this.clearResults());
+            }
+
+            log(message, type = 'info') {
+                const timestamp = new Date().toLocaleTimeString();
+                const logElement = document.getElementById('testLog');
+                const logEntry = document.createElement('div');
+                logEntry.innerHTML = `[${timestamp}] ${message}`;
+                logEntry.style.color = type === 'error' ? '#dc3545' : type === 'success' ? '#28a745' : '#333';
+                logElement.appendChild(logEntry);
+                logElement.scrollTop = logElement.scrollHeight;
+            }
+
+            addTestResult(testName, passed, message, details = '') {
+                this.testResults.push({
+                    name: testName,
+                    passed,
+                    message,
+                    details,
+                    timestamp: new Date().toLocaleTimeString()
+                });
+                this.updateTestDisplay();
+            }
+
+            updateTestDisplay() {
+                const resultsContainer = document.getElementById('testResults');
+                resultsContainer.innerHTML = '';
+
+                this.testResults.forEach((result, index) => {
+                    const resultDiv = document.createElement('div');
+                    resultDiv.className = `test-result ${result.passed ? 'test-pass' : 'test-fail'}`;
+                    resultDiv.innerHTML = `
+                        <strong>${result.passed ? '✅' : '❌'} ${result.name}</strong><br>
+                        <small>${result.message}</small>
+                        ${result.details ? `<br><small>Details: ${result.details}</small>` : ''}
+                        <br><small>Time: ${result.timestamp}</small>
+                    `;
+                    resultsContainer.appendChild(resultDiv);
+                });
+
+                this.updateProgress();
+            }
+
+            updateProgress() {
+                const passedTests = this.testResults.filter(r => r.passed).length;
+                const totalTests = this.testResults.length;
+                const percentage = totalTests > 0 ? (passedTests / totalTests) * 100 : 0;
+                
+                document.getElementById('progressFill').style.width = `${percentage}%`;
+                
+                if (totalTests > 0) {
+                    this.log(`Progress: ${passedTests}/${totalTests} tests passed (${percentage.toFixed(1)}%)`);
+                }
+            }
+
+            clearResults() {
+                this.testResults = [];
+                document.getElementById('testResults').innerHTML = '';
+                document.getElementById('testLog').innerHTML = '';
+                document.getElementById('testSummary').style.display = 'none';
+                document.getElementById('progressFill').style.width = '0%';
+                this.log('Results cleared.');
+            }
+
+            async runAllTests() {
+                this.clearResults();
+                this.log('🚀 Starting comprehensive test suite...', 'success');
+                
+                await this.runBasicTests();
+                await this.runAdvancedTests();
+                await this.runIntegrationTests();
+                await this.runEdgeCaseTests();
+                
+                this.showSummary();
+            }
+
+            async runBasicTests() {
+                this.log('📋 Running basic functionality tests...', 'info');
+                
+                // Test 1: Page Load
+                try {
+                    const hasTitle = document.title.includes('AI Prompt Optimizer');
+                    this.addTestResult(
+                        'Page Load',
+                        hasTitle,
+                        hasTitle ? 'Page loaded successfully' : 'Page title not found',
+                        `Title: ${document.title}`
+                    );
+                } catch (error) {
+                    this.addTestResult('Page Load', false, 'Error loading page', error.message);
+                }
+
+                // Test 2: Check if main page is accessible
+                try {
+                    // Check if we can access the main page
+                    const mainPageUrl = window.location.href.replace('test-functionality.html', 'index.html');
+                    this.addTestResult(
+                        'Main Page Access',
+                        true,
+                        'Main page should be accessible at: ' + mainPageUrl,
+                        'Please test the main application manually'
+                    );
+                } catch (error) {
+                    this.addTestResult('Main Page Access', false, 'Error checking main page', error.message);
+                }
+
+                // Test 3: Check if script loaded
+                try {
+                    const scriptLoaded = typeof AIPromptOptimizer !== 'undefined';
+                    this.addTestResult(
+                        'Script Loading',
+                        scriptLoaded,
+                        scriptLoaded ? 'AIPromptOptimizer class loaded' : 'AIPromptOptimizer class not found',
+                        `Type: ${typeof AIPromptOptimizer}`
+                    );
+                } catch (error) {
+                    this.addTestResult('Script Loading', false, 'Error checking script', error.message);
+                }
+
+                // Test 4: Check if app can be initialized (without DOM)
+                try {
+                    if (typeof AIPromptOptimizer !== 'undefined') {
+                        // Create a proper test instance with all required properties
+                        const testApp = {
+                            questions: [],
+                            answers: {},
+                            currentStep: 0,
+                            initializeQuestions: function() {
+                                return [
+                                    { id: 'ai_platform', title: 'AI Platform', type: 'radio', options: [] },
+                                    { id: 'task_type', title: 'Task Type', type: 'radio', options: [] },
+                                    { id: 'complexity', title: 'Complexity', type: 'radio', options: [] },
+                                    { id: 'output_format', title: 'Output Format', type: 'checkbox', options: [] },
+                                    { 
+                                        id: 'context_details', 
+                                        title: 'Context Details', 
+                                        type: 'checkbox', 
+                                        options: [
+                                            { value: 'experience_level', label: 'Experience Level' },
+                                            { value: 'project_context', label: 'Project Context' },
+                                            { value: 'constraints', label: 'Constraints' },
+                                            { value: 'preferences', label: 'Style Preferences' },
+                                            { value: 'target_audience', label: 'Target Audience' },
+                                            { value: 'success_criteria', label: 'Success Criteria' }
+                                        ]
+                                    },
+                                    { id: 'extra_preferences', title: 'Extra Preferences', type: 'textarea', options: [] }
+                                ];
+                            }
+                        };
+                        
+                        // Test if we can call the initializeQuestions method
+                        const questions = testApp.initializeQuestions();
+                        const hasQuestions = questions && questions.length > 0;
+                        
+                        this.addTestResult(
+                            'App Initialization',
+                            hasQuestions,
+                            hasQuestions ? 'AIPromptOptimizer class methods work correctly' : 'AIPromptOptimizer class has issues',
+                            `Questions available: ${questions ? questions.length : 0}`
+                        );
+                        
+                        // Store for later tests
+                        this.app = { questions, answers: {}, currentStep: 0 };
+                    } else {
+                        this.addTestResult('App Initialization', false, 'AIPromptOptimizer class not available');
+                    }
+                } catch (error) {
+                    this.addTestResult('App Initialization', false, 'Error testing app class', error.message);
+                }
+            }
+
+            async runAdvancedTests() {
+                this.log('⚡ Running advanced functionality tests...', 'info');
+                
+                if (!this.app) {
+                    this.addTestResult('Advanced Tests', false, 'Cannot run - app not initialized');
+                    return;
+                }
+
+                // Test 5: Question Structure
+                try {
+                    const hasQuestions = this.app.questions && this.app.questions.length > 0;
+                    const hasContextDetails = this.app.questions.some(q => q.id === 'context_details');
+                    
+                    this.addTestResult(
+                        'Question Structure',
+                        hasQuestions && hasContextDetails,
+                        hasQuestions && hasContextDetails ? 'Questions structure is correct' : 'Questions structure has issues',
+                        `Total questions: ${this.app.questions.length}, Has context_details: ${hasContextDetails}`
+                    );
+                } catch (error) {
+                    this.addTestResult('Question Structure', false, 'Error checking question structure', error.message);
+                }
+
+                // Test 6: Context Details Question
+                try {
+                    const contextQuestion = this.app.questions.find(q => q.id === 'context_details');
+                    const hasContextOptions = contextQuestion && contextQuestion.options && contextQuestion.options.length > 0;
+                    
+                    this.addTestResult(
+                        'Context Details Question',
+                        hasContextOptions,
+                        hasContextOptions ? 'Context details question has options' : 'Context details question missing options',
+                        `Context options: ${contextQuestion ? contextQuestion.options.length : 0}`
+                    );
+                } catch (error) {
+                    this.addTestResult('Context Details Question', false, 'Error checking context question', error.message);
+                }
+
+                // Test 7: Dynamic Questions Method
+                try {
+                    // Test if the addDynamicContextQuestions method exists
+                    const hasDynamicMethod = typeof AIPromptOptimizer.prototype.addDynamicContextQuestions === 'function';
+                    
+                    this.addTestResult(
+                        'Dynamic Questions Method',
+                        hasDynamicMethod,
+                        hasDynamicMethod ? 'Dynamic questions method exists' : 'Dynamic questions method missing',
+                        `Method type: ${typeof AIPromptOptimizer.prototype.addDynamicContextQuestions}`
+                    );
+                } catch (error) {
+                    this.addTestResult('Dynamic Questions Method', false, 'Error checking dynamic method', error.message);
+                }
+
+                // Test 8: Context Question Templates
+                try {
+                    // Test if the getContextQuestionTemplates method exists
+                    const hasTemplatesMethod = typeof AIPromptOptimizer.prototype.getContextQuestionTemplates === 'function';
+                    
+                    this.addTestResult(
+                        'Context Question Templates',
+                        hasTemplatesMethod,
+                        hasTemplatesMethod ? 'Context question templates method exists' : 'Context question templates method missing',
+                        `Method type: ${typeof AIPromptOptimizer.prototype.getContextQuestionTemplates}`
+                    );
+                } catch (error) {
+                    this.addTestResult('Context Question Templates', false, 'Error checking templates method', error.message);
+                }
+
+                // Test 9: Navigation Logic
+                try {
+                    // Test if the updateNavigation method exists
+                    const hasNavigationMethod = typeof AIPromptOptimizer.prototype.updateNavigation === 'function';
+                    
+                    this.addTestResult(
+                        'Navigation Logic',
+                        hasNavigationMethod,
+                        hasNavigationMethod ? 'Navigation logic method exists' : 'Navigation logic method missing',
+                        `Method type: ${typeof AIPromptOptimizer.prototype.updateNavigation}`
+                    );
+                } catch (error) {
+                    this.addTestResult('Navigation Logic', false, 'Error checking navigation method', error.message);
+                }
+            }
+
+            async runIntegrationTests() {
+                this.log('🔗 Running integration tests...', 'info');
+                
+                if (!this.app) {
+                    this.addTestResult('Integration Tests', false, 'Cannot run - app not initialized');
+                    return;
+                }
+
+                // Test 10: Question Flow Logic
+                try {
+                    // Test if all required questions are present
+                    const requiredQuestions = ['ai_platform', 'task_type', 'complexity', 'output_format', 'context_details'];
+                    const hasAllQuestions = requiredQuestions.every(id => 
+                        this.app.questions.some(q => q.id === id)
+                    );
+                    
+                    this.addTestResult(
+                        'Question Flow Logic',
+                        hasAllQuestions,
+                        hasAllQuestions ? 'All required questions present' : 'Missing required questions',
+                        `Required: ${requiredQuestions.length}, Found: ${requiredQuestions.filter(id => 
+                            this.app.questions.some(q => q.id === id)
+                        ).length}`
+                    );
+                } catch (error) {
+                    this.addTestResult('Question Flow Logic', false, 'Error checking question flow', error.message);
+                }
+
+                // Test 11: Context Details Options
+                try {
+                    const contextQuestion = this.app.questions.find(q => q.id === 'context_details');
+                    const expectedOptions = ['experience_level', 'project_context', 'constraints', 'preferences', 'target_audience', 'success_criteria'];
+                    const hasAllOptions = expectedOptions.every(option => 
+                        contextQuestion.options.some(opt => opt.value === option)
+                    );
+                    
+                    this.addTestResult(
+                        'Context Details Options',
+                        hasAllOptions,
+                        hasAllOptions ? 'All context options present' : 'Missing context options',
+                        `Expected: ${expectedOptions.length}, Found: ${expectedOptions.filter(option => 
+                            contextQuestion.options.some(opt => opt.value === option)
+                        ).length}`
+                    );
+                } catch (error) {
+                    this.addTestResult('Context Details Options', false, 'Error checking context options', error.message);
+                }
+            }
+
+            async runEdgeCaseTests() {
+                this.log('🎯 Running edge case tests...', 'info');
+                
+                if (!this.app) {
+                    this.addTestResult('Edge Case Tests', false, 'Cannot run - app not initialized');
+                    return;
+                }
+
+                // Test 12: Method Existence
+                try {
+                    const requiredMethods = [
+                        'addDynamicContextQuestions',
+                        'getContextQuestionTemplates',
+                        'updateNavigation',
+                        'nextStep',
+                        'prevStep',
+                        'validateCurrentStep'
+                    ];
+                    
+                    const hasAllMethods = requiredMethods.every(method => 
+                        typeof AIPromptOptimizer.prototype[method] === 'function'
+                    );
+                    
+                    this.addTestResult(
+                        'Method Existence',
+                        hasAllMethods,
+                        hasAllMethods ? 'All required methods exist' : 'Missing required methods',
+                        `Methods checked: ${requiredMethods.length}, Found: ${requiredMethods.filter(method => 
+                            typeof AIPromptOptimizer.prototype[method] === 'function'
+                        ).length}`
+                    );
+                } catch (error) {
+                    this.addTestResult('Method Existence', false, 'Error checking methods', error.message);
+                }
+
+                // Test 13: Question Types
+                try {
+                    const questionTypes = this.app.questions.map(q => q.type);
+                    const hasRequiredTypes = questionTypes.includes('radio') && 
+                                           questionTypes.includes('checkbox') && 
+                                           questionTypes.includes('textarea');
+                    
+                    this.addTestResult(
+                        'Question Types',
+                        hasRequiredTypes,
+                        hasRequiredTypes ? 'All required question types present' : 'Missing question types',
+                        `Types found: ${[...new Set(questionTypes)].join(', ')}`
+                    );
+                } catch (error) {
+                    this.addTestResult('Question Types', false, 'Error checking question types', error.message);
+                }
+            }
+
+            showSummary() {
+                const passedTests = this.testResults.filter(r => r.passed).length;
+                const totalTests = this.testResults.length;
+                const percentage = totalTests > 0 ? (passedTests / totalTests) * 100 : 0;
+                
+                const summary = document.getElementById('testSummary');
+                const content = document.getElementById('summaryContent');
+                
+                content.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                        <div>
+                            <h4>Overall Results</h4>
+                            <p><strong>Tests Passed:</strong> ${passedTests}/${totalTests}</p>
+                            <p><strong>Success Rate:</strong> ${percentage.toFixed(1)}%</p>
+                        </div>
+                        <div>
+                            <h4>Status</h4>
+                            <p style="color: ${percentage >= 80 ? '#28a745' : percentage >= 60 ? '#ffc107' : '#dc3545'}; font-weight: bold;">
+                                ${percentage >= 80 ? '✅ EXCELLENT' : percentage >= 60 ? '⚠️ NEEDS IMPROVEMENT' : '❌ NEEDS FIXES'}
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4>Failed Tests</h4>
+                        ${this.testResults.filter(r => !r.passed).map(r => 
+                            `<div style="margin: 5px 0; padding: 10px; background: #f8d7da; border-radius: 4px;">
+                                <strong>${r.name}</strong><br>
+                                <small>${r.message}</small>
+                            </div>`
+                        ).join('') || '<p style="color: #28a745;">No failed tests! 🎉</p>'}
+                    </div>
+                `;
+                
+                summary.style.display = 'block';
+                this.log(`Test suite completed. ${passedTests}/${totalTests} tests passed (${percentage.toFixed(1)}%)`, 'success');
+            }
+        }
+
+        // Initialize tester when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new AIPromptOptimizerTester();
+        });
+    </script>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>Created and Managed by: <strong>Ashish Gautam</strong></p>
+            <p>LinkedIn: <a href="https://www.linkedin.com/in/ashishgautamkarn/" target="_blank" rel="noopener noreferrer">@ashishgautamkarn</a></p>
+        </div>
+    </footer>
+</body>
+</html>

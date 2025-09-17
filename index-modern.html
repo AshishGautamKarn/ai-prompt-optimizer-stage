@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Prompt Optimizer - Modern UI</title>
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="styles-modern.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#2196f3">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="AI Prompt Optimizer">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="AI Prompt Optimizer - Generate Perfect AI Prompts">
+    <meta property="og:description" content="Create optimized prompts for ChatGPT, Claude, Gemini, and 6+ other AI platforms with our intelligent questionnaire system.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://your-domain.com">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="AI Prompt Optimizer">
+    <meta name="twitter:description" content="Generate perfect prompts for any AI platform">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+</head>
+<body>
+    <!-- Skip to content link for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+        <i class="fas fa-moon" id="themeIcon"></i>
+    </button>
+    
+    <div class="container">
+        <header class="header">
+            <h1>
+                <i class="fas fa-robot" aria-hidden="true"></i> 
+                AI Prompt Optimizer
+            </h1>
+            <p>Generate the perfect prompt for your chosen AI platform with our intelligent questionnaire system</p>
+        </header>
+
+        <main id="main-content">
+            <div class="progress-container" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="5" aria-label="Progress through questionnaire">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <span class="progress-text" id="progressText">Step 1 of 5</span>
+            </div>
+
+            <div class="question-container" id="questionContainer" role="main" aria-live="polite">
+                <!-- Questions will be dynamically loaded here -->
+            </div>
+
+            <nav class="navigation" aria-label="Questionnaire navigation">
+                <button id="prevBtn" class="btn btn-secondary" style="display: none;" aria-label="Go to previous question">
+                    <i class="fas fa-arrow-left" aria-hidden="true"></i> 
+                    <span>Previous</span>
+                </button>
+                <button id="nextBtn" class="btn btn-primary" aria-label="Go to next question">
+                    <span>Next</span>
+                    <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                </button>
+                <button id="generateBtn" class="btn btn-success" style="display: none;" aria-label="Generate optimized prompt">
+                    <i class="fas fa-magic" aria-hidden="true"></i> 
+                    <span>Generate Prompt</span>
+                </button>
+            </nav>
+
+            <div class="result-container" id="resultContainer" style="display: none;" role="region" aria-label="Generated prompt results">
+                <h2>
+                    <i class="fas fa-sparkles" aria-hidden="true"></i> 
+                    Your Optimized Prompt
+                </h2>
+                <div class="prompt-output">
+                    <label for="generatedPrompt" class="sr-only">Generated prompt text</label>
+                    <textarea 
+                        id="generatedPrompt" 
+                        readonly 
+                        aria-label="Generated prompt text"
+                        placeholder="Your optimized prompt will appear here..."
+                    ></textarea>
+                    <button id="copyBtn" class="btn btn-outline" aria-label="Copy prompt to clipboard">
+                        <i class="fas fa-copy" aria-hidden="true"></i> 
+                        <span>Copy to Clipboard</span>
+                    </button>
+                </div>
+                <div class="ai-tips" id="aiTips" role="complementary" aria-label="AI platform tips and best practices">
+                    <!-- AI-specific tips will be shown here -->
+                </div>
+                <div class="result-actions">
+                    <button id="newPromptBtn" class="btn btn-primary" type="button" aria-label="Start a new prompt generation">
+                        <i class="fas fa-plus" aria-hidden="true"></i> 
+                        <span>Start New Prompt</span>
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="footer" role="contentinfo">
+        <div class="footer-content">
+            <p>Created and Managed by: <strong>Ashish Gautam</strong></p>
+            <p>
+                LinkedIn: 
+                <a 
+                    href="https://www.linkedin.com/in/ashishgautamkarn/" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    aria-label="Visit Ashish Gautam's LinkedIn profile"
+                >
+                    @ashishgautamkarn
+                </a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Loading indicator -->
+    <div class="loading" id="loadingIndicator" style="display: none;" role="status" aria-label="Loading">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Toast notifications container -->
+    <div id="toastContainer" class="toast-container" aria-live="polite" aria-label="Notifications"></div>
+
+    <!-- Scripts -->
+    <script src="script-modern.js"></script>
+</body>
+</html>
